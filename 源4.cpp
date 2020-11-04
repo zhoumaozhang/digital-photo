@@ -12,11 +12,11 @@ int main()
 	cv::Mat srcMat = cv::imread("D:/2020/课程/数字图像处理/图片/6/1.jpg", 1);
 	if (srcMat.empty()) return -1;
 
-	int site_leftup, site_leftdown, site_rightup;
-	for (int i = 0; i < srcMat.cols; i++)//找左上点
+	int site_rightdown, site_leftdown, site_rightup;
+	for (int i = 0; i < srcMat.cols; i++)//找右下点
 	{
-		if (srcMat.at<Vec3b>(0, i)[0] != 255 || srcMat.at<Vec3b>(0, i)[1] != 255 || srcMat.at<Vec3b>(0, i)[2] != 255)
-			site_leftup = i;
+		if (srcMat.at<Vec3b>(srcMat.rows - 1, i)[0] != 255 || srcMat.at<Vec3b>(srcMat.rows - 1, i)[1] != 255 || srcMat.at<Vec3b>(srcMat.rows - 1, i)[2] != 255)
+			site_rightdown = i;
 	}
 	for (int j = 0; j < srcMat.rows; j++)//找左下点和右上点
 	{
@@ -28,11 +28,11 @@ int main()
 
 
 	//变换前的三点坐标
-	const cv::Point2f src_pt[] = { cv::Point2f(site_leftup,0),
+	const cv::Point2f src_pt[] = { cv::Point2f(site_rightdown,srcMat.rows - 1),
 									cv::Point2f(0,site_leftdown),
 									cv::Point2f(srcMat.cols - 1,site_rightup) };
 	//变换后的三点坐标
-	const cv::Point2f dst_pt[] = { cv::Point2f(0,0),         //左上
+	const cv::Point2f dst_pt[] = { cv::Point2f(srcMat.cols - 1,srcMat.rows - 1),         //右下
 									cv::Point2f(0,srcMat.rows - 1),     //左下
 									cv::Point2f(srcMat.cols - 1,0) };  //右上
 	//计算仿射矩阵

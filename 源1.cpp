@@ -47,13 +47,13 @@ int main()
 				junzhi[j][i] /= n;
 			}
 		}
-		cv::Mat result = Mat::zeros(frame.size(), frame.type());
+		cv::Mat result = Mat::zeros(frame.size(), frame.type());//定义域与frame同类型同大小的Mat
 		int TH = 50;
 		for (int j = 0; j < height; j++)
 		{
 			for (int i = 0; i < width; i++)
 			{
-				if (abs(frame.at<uchar>(j, i) - junzhi[j][i]) > TH * fangcha[j][i])
+				if (abs(frame.at<uchar>(j, i) - junzhi[j][i]) > TH * fangcha[j][i])//高斯模型判别式
 				{
 					result.at<uchar>(j, i) = 1;
 				}
@@ -61,6 +61,14 @@ int main()
 		}
 		imshow("result", result);
 		waitKey(30);
+		for (int j = 0; j < height; j++)//清空数组
+		{
+			for (int i = 0; i < width; i++)
+			{
+				junzhi[j][i] = 0;
+				fangcha[j][i] = 0;
+			}
+		}
 	}
 	return 0;
 }
